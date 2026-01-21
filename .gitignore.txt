@@ -1,7 +1,0 @@
-.\angular-first-http\node_modules\
-.\angular-first-server\node_modules\
-
-## Environments
-
-.\angular-first-http\.env
-.\angular-first-server\.env

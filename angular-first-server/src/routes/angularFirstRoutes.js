@@ -9,11 +9,14 @@ const AngularFirstRoutes = ({
     const productsData = await angularFirstService.products();
 
     response.writeHead(200, DEFAULT_HEADER);
-    response.write(
-      JSON.stringify({
-        results: productsData,
-      }),
-    );
+    setTimeout(() => {
+      response.write(
+        JSON.stringify({
+          results: productsData,
+        }),
+      );
+    }, 12000);
+    
     return response.end();
   },
 

@@ -1,4 +1,3 @@
-const { parse } = require('node:url');
 const generateInstance = require('./factories/angularFirstFactory');
 const handlerError = require('./util/handleError');
 const AngularFirstRoutes = require('./routes/angularFirstRoutes');
@@ -22,7 +21,10 @@ const allRoutes = {
 function handler(req, res) {
     const { url, method } = req;
 
-    const { pathname } = parse(url, true);
+    const baseURL = `http://${req.headers.host || 'localhost'}`;
+    const parsedUrl = new URL(url, baseURL);
+    
+    const { pathname } = parsedUrl;
 
     const key = `${pathname}:${method.toLowerCase()}`;
     const chosen = allRoutes[key] || allRoutes.default;
