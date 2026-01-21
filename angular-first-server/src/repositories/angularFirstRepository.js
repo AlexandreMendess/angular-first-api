@@ -9,7 +9,7 @@ class AngularFirstRepository {
 
     async products() {
         const script = "SELECT * from products";
-        const { rows } = this.database.query(script);
+        const { rows } = await this.database.query(script);
 
         return rows.map(row => new Product({
             id: row.id,
@@ -20,20 +20,18 @@ class AngularFirstRepository {
     async createProduct(product) {
         const script = `
             INSERT INTO products (name)
-            VALUES ($1, $2, $3)
+            VALUES ($1)
             RETURNING *
         `;
 
         const values = [product.name];
 
-        const { rows } = await this.database.query(text, values);
+        const { rows } = await this.database.query(script, values);
         const newRow = rows[0];
 
-        return new User({
+        return new Product({
           id: newRow.id,
           name: newRow.name,
-          email: newRow.email,
-          createdAt: newRow.created_at,
         });
     }
 }

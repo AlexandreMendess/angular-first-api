@@ -1,9 +1,14 @@
+const { once } = require('events'); // Native Node.js events module
+const Product = require('../entities/product');
+const { DEFAULT_HEADER } = require('../util/defaultHeader');
+
 const AngularFirstRoutes = ({
     angularFirstService
 }) => ({
   "/products:get": async (request, response) => {
     const productsData = await angularFirstService.products();
 
+    response.writeHead(200, DEFAULT_HEADER);
     response.write(
       JSON.stringify({
         results: productsData,
@@ -17,13 +22,13 @@ const AngularFirstRoutes = ({
     const item = JSON.parse(data);
     const product = new Product(item);
 
-    const id = await heroService.create(hero);
+    const createdProduct = await angularFirstService.newProduct(product);
 
     response.writeHead(201, DEFAULT_HEADER);
     response.write(
       JSON.stringify({
-        id,
-        success: "User created with success!!",
+        id: createdProduct.id,
+        success: "Product created with success!!",
       }),
     );
 

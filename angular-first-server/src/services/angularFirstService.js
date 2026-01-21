@@ -1,4 +1,4 @@
-export default class AngularFirstService {
+class AngularFirstService {
     constructor({
         angularFirstRepository
     }) {
@@ -10,6 +10,8 @@ export default class AngularFirstService {
     }
 
     newProduct(product) {
-        return this.angularFirstRepository.newProduct(product);
+        return this.angularFirstRepository.createProduct(product);
     }
 }
+
+module.exports = AngularFirstService;

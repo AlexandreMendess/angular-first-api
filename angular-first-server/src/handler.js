@@ -1,12 +1,10 @@
-const parse = require('node:url');
-const AngularFirstRepository = require('./repositories/angularFirstRepository');
+const { parse } = require('node:url');
 const generateInstance = require('./factories/angularFirstFactory');
 const handlerError = require('./util/handleError');
 const AngularFirstRoutes = require('./routes/angularFirstRoutes');
+const DEFAULT_HEADER = require('./util/defaultHeader');
 
-const angularFirstService = generateInstance({
-    AngularFirstRepository
-});
+const angularFirstService = generateInstance();
 
 const routes = AngularFirstRoutes({
   angularFirstService
@@ -15,9 +13,9 @@ const routes = AngularFirstRoutes({
 const allRoutes = {
   ...routes,
   default: (req, res) => {
-    response.writeHead(404, DEFAULT_HEADER);
-    response.write('Not found!');
-    response.end();
+    res.writeHead(404, DEFAULT_HEADER);
+    res.write('Not found!');
+    res.end();
   }
 }
 
@@ -29,8 +27,8 @@ function handler(req, res) {
     const key = `${pathname}:${method.toLowerCase()}`;
     const chosen = allRoutes[key] || allRoutes.default;
 
-    return Promise.resolve(chosen(request, response)).catch(
-      handlerError(response)
+    return Promise.resolve(chosen(req, res)).catch(
+      handlerError(res)
     );
 }
 
